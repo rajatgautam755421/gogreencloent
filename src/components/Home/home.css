@@ -1,0 +1,32 @@
+.mainImage {
+  display: flex;
+  height: 90vh;
+  width: 100%;
+}
+.text-center {
+  font-size: 50px;
+  margin-top: -350px;
+  color: white;
+}
+.btn {
+  background-color: #22c154;
+  color: white;
+  font-size: 20px;
+}
+@media screen and (max-width: 500px) {
+  .mainImage {
+    display: flex;
+    overflow-x: hidden;
+    height: 90vh;
+  }
+  .text-center {
+    font-size: 20px;
+    margin-top: -300px;
+    color: white;
+  }
+  .btn {
+    background-color: #22c154;
+    color: white;
+    font-size: 15px;
+  }
+}

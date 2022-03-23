@@ -1,0 +1,20 @@
+.main__header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 100 !important;
+  background-color: white !important;
+  border-bottom: 0.5px solid lightgray;
+}
+.nav__list {
+  transition: all 0.2s ease-in-out;
+}
+.nav__list:hover {
+  transform: scale(1.1);
+}
+
+.nav__button {
+  transition: all 0.2s ease-in-out !important;
+}
+.nav__button:hover {
+  transform: scale(1.1);
+}

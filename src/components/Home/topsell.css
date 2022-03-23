@@ -1,0 +1,33 @@
+.top-seller .wrap-seller {
+  /* background: url('https://i0.wp.com/sgkplanet.com/wp-content/uploads/2021/06/FAQs-about-Environment-Website-SGK-PLANET-Aixa-Chacin.jpg?resize=850%2C580&ssl=1');
+  height: 80vh;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover; */
+  background: whitesmoke;
+}
+.top-seller .wrap-seller .profile-image {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+.top-seller .wrap-seller p {
+  margin: 0;
+  font-size: 13px;
+}
+.load-more {
+  padding: 10px 0 40px 0;
+}
+.load-more a {
+  background-color: #22c154;
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 10px;
+  transition: 0.5s;
+}
+
+.load-more a:hover {
+  background-color: whitesmoke;
+  color: #22c154;
+}

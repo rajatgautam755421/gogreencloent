@@ -1,0 +1,81 @@
+.text-white {
+  --bs-text-opacity: 1;
+  color: rgba(var(--bs-white-rgb), var(--bs-text-opacity)) !important;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: rgba(152, 223, 152, 0.5);
+  background-clip: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+}
+.card1 {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  text-align: center;
+
+  font-weight: 600;
+  word-wrap: break-word;
+  background-color: rgba(132, 207, 188, 0.8);
+  background-clip: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+}
+.card2 {
+  word-wrap: break-word;
+  /* background-color: rgba(219, 180, 197, 0.5); */
+  background-clip: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+  /* width: 100% !important; */
+}
+
+.card3 {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+
+  word-wrap: break-word;
+  background-color: rgba(69, 148, 105, 0.5);
+  background-clip: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+}
+
+.card-body {
+  flex: 1 1 auto;
+  padding: 1rem 1rem;
+  color: black;
+  /* width: 100% !important; */
+}
+
+.card-footer {
+  padding: 0.5rem 1rem;
+  background-color: rgba(88, 111, 184, 0.13) !important;
+  border-top: 1px solid rgba(44, 6, 6, 0.125);
+  color: black;
+}
+.mb-4 {
+  margin-bottom: 1.5rem !important;
+}
+.containerr {
+  padding: 3%;
+  background-color: rgba(108, 168, 143, 0.125);
+}
+
+.table__div {
+  /* width: 100% !important; */
+  background-color: rgba(219, 180, 197, 0.5) !important;
+}
+
+.card100 {
+  background-color: rgba(219, 180, 197, 0.5) !important;
+}

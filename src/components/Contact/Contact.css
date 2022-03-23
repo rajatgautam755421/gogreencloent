@@ -1,0 +1,16 @@
+.mainservices__title {
+  margin-top: 10px !important;
+  margin-bottom: 18px !important;
+  font-size: 40px !important;
+  text-align: center !important;
+  color: #22c514 !important;
+  text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1) !important;
+}
+
+.main__form {
+  transition: all 0.2s ease-in-out;
+}
+
+.main__form:hover {
+  transform: scale(1.07);
+}
