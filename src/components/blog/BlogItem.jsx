@@ -1,6 +1,6 @@
 import React from "react";
 
-const BlogItem = ({ id, name, email, title, desc }) => {
+const BlogItem = ({ title, desc }) => {
   return (
     <div>
       <section className="text-gray-600 body-font overflow-hidden">
@@ -70,13 +70,13 @@ const BlogItem = ({ id, name, email, title, desc }) => {
                 />
                 <span className="flex-grow flex flex-col pl-4">
                   <span className="title-font font-medium text-gray-900">
-                    {name}
+                    Aashish Ghimire
                   </span>
                   <span
                     className="text-gray-700 text-xs tracking-widest mt-0.5"
                     style={{ color: "#22c514" }}
                   >
-                    {email}
+                    aashish@gmail.com
                   </span>
                 </span>
               </a>

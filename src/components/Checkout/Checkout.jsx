@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import KhaltiCheckout from "khalti-checkout-web";
 import "./Checkout.css";
 import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
+import CheckoutEmements from "./CheckoutEmements";
 
 let config = {
   publicKey: "test_public_key_217cd8ec1209455bbc10c8a7c1c7813e",
@@ -21,6 +22,15 @@ let config = {
         .catch((error) => {
           console.log(error);
         });
+      const { amount, idx, mobile, product_name, product_url } = payload;
+      const { data } = axios.post("http://localhost:3000/api/v1/payment", {
+        amount,
+        idx,
+        mobile,
+        product_name,
+        product_url,
+      });
+      console.log(data);
     },
     onError(error) {
       console.log(error);
@@ -48,6 +58,20 @@ const handleClick = (e) => {
 };
 
 const Checkout = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [number, setNumber] = useState("");
+  const [address, setAddress] = useState("");
+  const [valid, setValid] = useState(false);
+
+  useEffect(() => {
+    if (name !== "" && email !== "" && number !== "" && address !== "") {
+      setValid(true);
+    } else {
+      setValid(false);
+    }
+  });
+
   return (
     <>
       <div>
@@ -56,8 +80,19 @@ const Checkout = () => {
       <div className="container">
         <h3 className="title">My Cart</h3>
         <br />
+
         <div className="row">
           <div className="col-md-6 col-sm-12 col-xl-5">
+            <CheckoutEmements />
+            <CheckoutEmements />
+            <CheckoutEmements />
+            <CheckoutEmements />
+            <CheckoutEmements />
+
+            <h1 style={{ fontSize: "20px" }}>Total Price : Rs.1000</h1>
+          </div>
+
+          {/* <div className="col-md-6 col-sm-12 col-xl-5">
             <div className="box">
               <div className="row">
                 <div className="col-md-6 col-sm-6 col-xl-7">
@@ -116,7 +151,7 @@ const Checkout = () => {
             </div>
             <br />
             <h1 style={{ fontSize: "40px" }}>Rs.{total}</h1>
-          </div>
+          </div> */}
           <div className="col-md-6 col-sm-12 col-xl-1"></div>
           <div className="col-md-6 col-sm-12 col-xl-6">
             <h4 className="price">Enter all Fields</h4>
@@ -131,6 +166,8 @@ const Checkout = () => {
                   className="form-control"
                   id="exampleInputEmail1"
                   aria-describedby="emailHelp"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
               </div>
               <div className="mb-3">
@@ -141,6 +178,8 @@ const Checkout = () => {
                   type="text"
                   className="form-control"
                   id="exampleInputPassword1"
+                  value={number}
+                  onChange={(e) => setNumber(e.target.value)}
                 />
               </div>
               <div className="mb-3">
@@ -151,6 +190,8 @@ const Checkout = () => {
                   type="text"
                   className="form-control"
                   id="exampleInputPassword1"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
                 />
               </div>
               <div className="mb-3">
@@ -161,6 +202,8 @@ const Checkout = () => {
                   type="text"
                   className="form-control"
                   id="exampleInputPassword1"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="mb-3 form-check">
@@ -173,21 +216,23 @@ const Checkout = () => {
                   Check me out
                 </label>
               </div>
-              <div className="title ">
-                {/* button */}
-                <button
-                  onClick={handleClick}
-                  style={{
-                    width: "100px",
-                    height: "40px",
-                    color: "white",
-                    backgroundColor: "#4D2A7A",
-                    borderRadius: "10px",
-                  }}
-                >
-                  Checkout
-                </button>
-              </div>
+              {valid && (
+                <div className="title ">
+                  {/* button */}
+                  <button
+                    onClick={handleClick}
+                    style={{
+                      width: "100px",
+                      height: "40px",
+                      color: "white",
+                      backgroundColor: "#4D2A7A",
+                      borderRadius: "10px",
+                    }}
+                  >
+                    Checkout
+                  </button>
+                </div>
+              )}
             </form>
           </div>
         </div>

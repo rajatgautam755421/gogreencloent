@@ -1,71 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Blog.css";
 import Typewriter from "typewriter-effect";
 import BlogItem from "./BlogItem";
-
-const BlogData = [
-  {
-    id: 1,
-    name: "Aashish Ghimire",
-    email: "aashish@gmail.com",
-    title: " Lorem ipsum dolor",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam, ipsum praesentium natus optio consectetur distinctio, atque officiis, iure aperiam rem aliquam facilis! In, nobis numquam. Voluptatem et assumenda aperiam nobis",
-  },
-  {
-    id: 2,
-    name: "Aashish Ghimire",
-    email: "aashish@gmail.com",
-    title: " Lorem ipsum dolor",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam, ipsum praesentium natus optio consectetur distinctio, atque officiis, iure aperiam rem aliquam facilis! In, nobis numquam. Voluptatem et assumenda aperiam nobis",
-  },
-  {
-    id: 3,
-    name: "Aashish Ghimire",
-    email: "aashish@gmail.com",
-    title: " Lorem ipsum dolor",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam, ipsum praesentium natus optio consectetur distinctio, atque officiis, iure aperiam rem aliquam facilis! In, nobis numquam. Voluptatem et assumenda aperiam nobis",
-  },
-  {
-    id: 4,
-    name: "Aashish Ghimire",
-    email: "aashish@gmail.com",
-    title: " Lorem ipsum dolor",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam, ipsum praesentium natus optio consectetur distinctio, atque officiis, iure aperiam rem aliquam facilis! In, nobis numquam. Voluptatem et assumenda aperiam nobis",
-  },
-  {
-    id: 5,
-    name: "Aashish Ghimire",
-    email: "aashish@gmail.com",
-    title: " Lorem ipsum dolor",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam, ipsum praesentium natus optio consectetur distinctio, atque officiis, iure aperiam rem aliquam facilis! In, nobis numquam. Voluptatem et assumenda aperiam nobis",
-  },
-  {
-    id: 6,
-    name: "Aashish Ghimire",
-    email: "aashish@gmail.com",
-    title: " Lorem ipsum dolor",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam, ipsum praesentium natus optio consectetur distinctio, atque officiis, iure aperiam rem aliquam facilis! In, nobis numquam. Voluptatem et assumenda aperiam nobis",
-  },
-  {
-    id: 7,
-    name: "Aashish Ghimire",
-    email: "aashish@gmail.com",
-    title: " Lorem ipsum dolor",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam, ipsum praesentium natus optio consectetur distinctio, atque officiis, iure aperiam rem aliquam facilis! In, nobis numquam. Voluptatem et assumenda aperiam nobis",
-  },
-  {
-    id: 8,
-    name: "Aashish Ghimire",
-    email: "aashish@gmail.com",
-    title: " Lorem ipsum dolor",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam, ipsum praesentium natus optio consectetur distinctio, atque officiis, iure aperiam rem aliquam facilis! In, nobis numquam. Voluptatem et assumenda aperiam nobis",
-  },
-];
+import axios from "axios";
+import Spinner from "../Spinner";
 
 const Blog = () => {
+  const [blogs, setBlogs] = useState([]);
+  const [loader, setLoader] = useState(false);
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      setLoader(true);
+      const { data } = await axios.get("http://localhost:3000/api/v1/blog");
+      try {
+        console.log(data);
+        setBlogs(data);
+        setLoader(false);
+      } catch (error) {
+        console.log(error.message);
+        setLoader(false);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
+
   return (
     <div>
+      {blogs === [] && <h1>No blogs to show</h1>}
       {/* Blog Intro*/}
+      {loader && <Spinner />}
       <div className="container">
         <h1 className="mainservices__title">
           <Typewriter
@@ -78,19 +42,15 @@ const Blog = () => {
         </h1>
       </div>
       {/* Blogs */}
-      {BlogData.map((value) => {
-        return (
-          <>
-            <BlogItem
-              id={value.id}
-              name={value.name}
-              email={value.email}
-              title={value.title}
-              desc={value.desc}
-            />
-          </>
-        );
-      })}
+      {blogs
+        ? blogs.map((value) => {
+            return (
+              <>
+                <BlogItem title={value.title} desc={value.description} />
+              </>
+            );
+          })
+        : null}
     </div>
   );
 };

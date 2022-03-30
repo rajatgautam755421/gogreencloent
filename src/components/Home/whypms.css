@@ -10,3 +10,22 @@
   color: #22c154;
   font-weight: 600;
 }
+
+.PMS__title__main {
+  text-align: center;
+  font-size: 26px;
+}
+
+.pms__card {
+  border-radius: 4px;
+  background: #fff;
+  /* box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.05); */
+  transition: 0.4s transform cubic-bezier(0.155, 1.105, 0.5, 2), 0.3s box-shadow,
+    0.3s -webkit-transform cubic-bezier(0.155, 1.105, 0.295, 1.12);
+
+  margin-left: auto;
+  margin-right: auto;
+}
+.pms__card:hover {
+  transform: scale(1.07);
+}

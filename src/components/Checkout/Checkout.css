@@ -65,3 +65,20 @@
     height: 5px !important;
   }
 }
+.product-removal {
+  background-color: red;
+  border: none;
+  width: 100px;
+  float: right;
+  margin-right: 20px !important;
+  width: 100px;
+  height: 58px !important;
+  margin-top: 10px !important;
+  font-weight: bold !important;
+  border-radius: 5px !important;
+  color: white !important;
+}
+
+.box {
+  margin: 20px 0px;
+}

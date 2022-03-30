@@ -1,0 +1,43 @@
+::placeholder {
+  color: grey !important;
+}
+.color,
+.color1 {
+  border: 3px solid #22c514 !important;
+  color: #22c514 !important;
+  transform: scale(1.2);
+  transition: all 0.2s ease-in-out;
+}
+
+.color:hover,
+.color1:hover {
+  transform: scale(1.19);
+  transition: all 0.2s ease-in-out;
+}
+
+@media screen and (max-width: 600px) {
+  .color,
+  .color1,
+  .container__all {
+    width: 100px !important;
+    height: 60px !important;
+  }
+}
+
+.no__visibility {
+  position: absolute;
+}
+
+.check__icon {
+  color: #22c514 !important;
+  width: 40px !important;
+  height: 40px !important;
+}
+
+input {
+  border: gray !important;
+}
+
+input:focus {
+  border: 2px solid #22c514 !important;
+}

@@ -11,21 +11,97 @@ import SignIn from "./components/SignIn";
 import Checkout from "./components/Checkout/Checkout";
 import Dashboard from "./components/dashboard/MYDASHBOARD";
 
+import { Toaster, toast } from "react-hot-toast";
+import Blogpost from "./components/Blogpost/Blogpost";
+
 function App() {
   return (
     <div className="App">
+      <Toaster />
       <Router>
-        <Navbar />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/contact" element={<Contact />}></Route>
-          <Route path="/about" element={<About />}></Route>
-          <Route path="/signup" element={<Signup />}></Route>
-          <Route path="/blog" element={<Blog />}></Route>
-          <Route path="/profile" element={<Profile />}></Route>
-          <Route path="/signin" element={<SignIn />}></Route>
+          <Route
+            path="/"
+            element={
+              <>
+                <Navbar />
+                <Home />
+              </>
+            }
+          />
+          <Route
+            path="/contact"
+            element={
+              <>
+                <Navbar />
+                <Contact />
+              </>
+            }
+          ></Route>
+          <Route
+            path="/about"
+            element={
+              <>
+                <Navbar />
+                <About />
+              </>
+            }
+          ></Route>
+          <Route
+            path="/signup"
+            element={
+              <>
+                <Navbar />
+                <Signup />
+              </>
+            }
+          ></Route>
+          <Route
+            path="/blog"
+            element={
+              <>
+                <Navbar />
+                <Blog />
+              </>
+            }
+          ></Route>
+          <Route
+            path="/profile"
+            element={
+              <>
+                <Navbar />
+                <Profile />
+              </>
+            }
+          ></Route>
+          <Route
+            path="/signin"
+            element={
+              <>
+                <Navbar />
+                <SignIn />
+              </>
+            }
+          ></Route>
+          <Route
+            path="/blog/blogpost"
+            element={
+              <>
+                <Navbar />
+                <Blogpost />
+              </>
+            }
+          ></Route>
           <Route path="/cart" element={<Checkout />}></Route>
-          <Route path="/dashboard" element={<Dashboard />}></Route>
+          <Route
+            path="/dashboard"
+            element={
+              <>
+                <Navbar />
+                <Dashboard />
+              </>
+            }
+          ></Route>
         </Routes>
       </Router>
     </div>
