@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Toaster, toast } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import Spinner from "./Spinner";
@@ -21,13 +21,10 @@ const SignIn = () => {
     setLoading(true);
     e.preventDefault();
     try {
-      const { data } = await axios.post(
-        "https://go-green-api.herokuapp.com/api/v1/login",
-        {
-          email,
-          password,
-        }
-      );
+      const { data } = await axios.post("http://localhost:3000/api/v1/login", {
+        email,
+        password,
+      });
       localStorage.setItem("userInfo", JSON.stringify(data));
       history("/");
       console.log(data);

@@ -1,12 +1,20 @@
 import React from "react";
-import './topsellercard.css';
+import "./topsellercard.css";
 const TopSellerCard = () => {
   return (
     <div class="card text-start mx-auto mb-3">
-      <img src="https://i0.wp.com/sgkplanet.com/wp-content/uploads/2021/06/FAQs-about-Environment-Website-SGK-PLANET-Aixa-Chacin.jpg?resize=850%2C580&ssl=1" class="card-img-top" alt="..."/>
+      <img
+        src="https://i0.wp.com/sgkplanet.com/wp-content/uploads/2021/06/FAQs-about-Environment-Website-SGK-PLANET-Aixa-Chacin.jpg?resize=850%2C580&ssl=1"
+        class="card-img-top"
+        alt="..."
+      />
       <div class="card-body">
         <div className="d-flex align-items-center">
-          <img src="https://i0.wp.com/sgkplanet.com/wp-content/uploads/2021/06/FAQs-about-Environment-Website-SGK-PLANET-Aixa-Chacin.jpg?resize=850%2C580&ssl=1" className="profile-image" alt="" />
+          <img
+            src="https://i0.wp.com/sgkplanet.com/wp-content/uploads/2021/06/FAQs-about-Environment-Website-SGK-PLANET-Aixa-Chacin.jpg?resize=850%2C580&ssl=1"
+            className="profile-image"
+            alt=""
+          />
           <p className="fw-bold ms-2">Ashish Ghimire</p>
         </div>
         <div className="detail-product py-1">
@@ -16,7 +24,10 @@ const TopSellerCard = () => {
         </div>
         <div className="description">
           <h5>Description</h5>
-          <p>Loremrit sint veritaaksjaskjaskjsk,tis natus? Veritatis corrupti earumidunt dolor architecto eveniet?</p>
+          <p>
+            Loremrit sint veritaaksjaskjaskjsk,tis natus? Veritatis corrupti
+            earumidunt dolor architecto eveniet?
+          </p>
         </div>
         <div className="like-comment">
           <div className="row">
@@ -33,7 +44,7 @@ const TopSellerCard = () => {
               <p>User Rating</p>
             </div>
           </div>
-        </div>            
+        </div>
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ const Navbar = () => {
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     setUserInfo1(userInfo);
-  });
+  }, []);
 
   return (
     <header className="text-gray-600 body-font main__header">
@@ -22,6 +22,17 @@ const Navbar = () => {
             Home
           </Link>
 
+          {userInfo1 ? (
+            userInfo1.role === "Seller" ? (
+              <Link
+                to="/createpost"
+                className="mr-5 hover:text-gray-900 nav__list"
+                style={{ cursor: "pointer", fontSize: "20px", color: "black" }}
+              >
+                Create
+              </Link>
+            ) : null
+          ) : null}
           <Link
             to="/contact"
             className="mr-5 hover:text-gray-900 nav__list"

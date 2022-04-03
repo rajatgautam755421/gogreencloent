@@ -54,7 +54,7 @@ const SignUp = () => {
       .then((data) => {
         setPic(data.url.toString());
 
-        console.log(data.url.toString());
+        console.log(pic);
         setPicLoading(false);
       })
       .catch((err) => {
@@ -73,7 +73,7 @@ const SignUp = () => {
         toast.error("Password Did Not Matched");
       } else {
         const { data } = await axios.post(
-          "https://go-green-api.herokuapp.com/api/v1/register",
+          "http://localhost:3000/api/v1/register",
           {
             name,
             email,

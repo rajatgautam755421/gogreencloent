@@ -5,6 +5,8 @@ import Top3Sell from "./Top3Sell";
 import WhyPMS from "./WhyPMS";
 import Hero from "../hero/Hero";
 import toast from "react-hot-toast";
+import TopSellers from "../TopSellers/TopSellers";
+
 const Home = () => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   useEffect(() => {
@@ -20,6 +22,7 @@ const Home = () => {
       <WhyPMS />
       <Top3Sell />
       <Top3Buy />
+      <TopSellers />
     </>
   );
 };

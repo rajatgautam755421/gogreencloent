@@ -46,7 +46,11 @@ const Blog = () => {
         ? blogs.map((value) => {
             return (
               <>
-                <BlogItem title={value.title} desc={value.description} />
+                <BlogItem
+                  blogId={value._id}
+                  title={value.title}
+                  desc={value.description}
+                />
               </>
             );
           })

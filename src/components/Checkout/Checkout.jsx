@@ -1,246 +1,265 @@
-import React, { useState, useEffect } from "react";
-import KhaltiCheckout from "khalti-checkout-web";
-import "./Checkout.css";
 import axios from "axios";
-import { Toaster, toast } from "react-hot-toast";
-import CheckoutEmements from "./CheckoutEmements";
-
-let config = {
-  publicKey: "test_public_key_217cd8ec1209455bbc10c8a7c1c7813e",
-  productIdentity: "1234567890",
-  productName: "Drogon",
-  productUrl: "http://localhost:3001",
-  eventHandler: {
-    onSuccess(payload) {
-      toast.success("Payment Successful");
-      console.log(payload);
-      axios
-        .post("http://localhost:3000/api/v1/payment/verify/", payload)
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      const { amount, idx, mobile, product_name, product_url } = payload;
-      const { data } = axios.post("http://localhost:3000/api/v1/payment", {
-        amount,
-        idx,
-        mobile,
-        product_name,
-        product_url,
-      });
-      console.log(data);
-    },
-    onError(error) {
-      console.log(error);
-    },
-    onClose() {
-      console.log("widget is closing");
-    },
-  },
-  paymentPreference: [
-    "KHALTI",
-    "EBANKING",
-    "MOBILE_BANKING",
-    "CONNECT_IPS",
-    "SCT",
-  ],
-};
-
-let checkout = new KhaltiCheckout(config);
-
-const total = 100;
-
-const handleClick = (e) => {
-  e.preventDefault();
-  checkout.show({ amount: total * 100 });
-};
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import "./Checkout.css";
+import ReactStars from "react-stars";
+import { toast } from "react-hot-toast";
 
 const Checkout = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [number, setNumber] = useState("");
-  const [address, setAddress] = useState("");
-  const [valid, setValid] = useState(false);
+  const { id } = useParams();
+  const [sales, setSales] = useState({});
+  const [showReviews, setShowReviews] = useState(false);
+  const [ratings, setratings] = useState([]);
+  const [averageRat, setAvegareRat] = useState(0);
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const product_id = id;
+  const email = userInfo.email;
+  const image = userInfo.pic;
+
+  const ratingChanged = async (newRating) => {
+    console.log(newRating);
+    const rating = newRating;
+    try {
+      const { data } = await axios.post(
+        `http://localhost:3000/api/v1/rating/${product_id}`,
+        { email, image, rating }
+      );
+      console.log(data);
+      toast.success(`You Have Rated This Product With Rating ${rating}`);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   useEffect(() => {
-    if (name !== "" && email !== "" && number !== "" && address !== "") {
-      setValid(true);
-    } else {
-      setValid(false);
-    }
+    const fetchSales = async () => {
+      const { data } = await axios.get(
+        `http://localhost:3000/api/v1/findsales/${id}`
+      );
+      try {
+        setSales(data[0]);
+        console.log(sales);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    fetchSales();
+  }, []);
+
+  useEffect(() => {
+    const fetchRating = async () => {
+      const product_id = id;
+      try {
+        const { data } = await axios.get(
+          `http://localhost:3000/api/v1/rating/all/${product_id}`
+        );
+        setratings(data);
+        console.log(data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    fetchRating();
+  });
+
+  const sumRating = ratings
+    ? ratings.reduce((a, b) => {
+        return a + b.rating;
+      }, 0)
+    : null;
+
+  useEffect(() => {
+    const averageRating = sumRating / ratings.length;
+    setAvegareRat(averageRating);
   });
 
   return (
     <>
-      <div>
-        <Toaster />
-      </div>
-      <div className="container">
-        <h3 className="title">My Cart</h3>
-        <br />
+      <section className="text-gray-600 body-font overflow-hidden">
+        <div className="container px-5 py-1 mx-auto">
+          <div className="lg:w-4/5 mx-auto flex flex-wrap">
+            <div className="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
+              <h1 className="text-gray-900 text-3xl title-font font-medium mb-4">
+                {sales.product_desc}
+              </h1>
+              <div className="flex mb-4">
+                <a
+                  className={
+                    showReviews === false
+                      ? "flex-grow text-indigo-500 py-2 text-lg px-1 show__border"
+                      : "flex-grow text-indigo-500 border-b-2 border-gray-300 py-2 text-lg px-1"
+                  }
+                  style={{
+                    cursor: "pointer",
+                    textDecoration: "none",
+                    color: "black",
+                  }}
+                  onClick={() => setShowReviews(false)}
+                >
+                  Description
+                </a>
+                <a
+                  style={{
+                    cursor: "pointer",
+                    textDecoration: "none",
+                    color: "black",
+                  }}
+                  className={
+                    showReviews
+                      ? "flex-grow border-b-2 border-gray-300 py-2 text-lg px-1 show__border"
+                      : "flex-grow border-b-2 border-gray-300 py-2 text-lg px-1"
+                  }
+                  onClick={() => setShowReviews(true)}
+                >
+                  Reviews
+                </a>
+              </div>
 
-        <div className="row">
-          <div className="col-md-6 col-sm-12 col-xl-5">
-            <CheckoutEmements />
-            <CheckoutEmements />
-            <CheckoutEmements />
-            <CheckoutEmements />
-            <CheckoutEmements />
-
-            <h1 style={{ fontSize: "20px" }}>Total Price : Rs.1000</h1>
-          </div>
-
-          {/* <div className="col-md-6 col-sm-12 col-xl-5">
-            <div className="box">
-              <div className="row">
-                <div className="col-md-6 col-sm-6 col-xl-7">
-                  <h6 className="itemtitle">Item info </h6>
-                  <div className="itemDetail">
-                    Name:Bottle <br />
-                    Quantity:4kg
+              {showReviews === false ? (
+                <>
+                  <div className="flex border-t border-gray-200 py-2">
+                    <span className="text-gray-500">Product Amount</span>
+                    <span className="ml-auto text-gray-900">
+                      {sales.product_amount}
+                    </span>
                   </div>
-                </div>
-
-                <div className="col-md-6 col-sm-6 col-xl-5">
-                  <img
-                    className="Image"
-                    src="https://www.euractiv.com/wp-content/uploads/sites/2/2021/09/Bali-plastic-polllution-scaled.jpg"
-                  />
-                </div>
-              </div>
-            </div>
-            <br />
-            <div className="box">
-              <div className="row">
-                <div className="col-md-6 col-sm-12 col-xl-7">
-                  <h6 className="itemtitle">Item info </h6>
-                  <div className="itemDetail">
-                    Name:Bottle <br />
-                    Quantity:4kg
+                  <div className="flex border-t border-gray-200 py-2">
+                    <span className="text-gray-500">Product Price</span>
+                    <span className="ml-auto text-gray-900">
+                      {sales.product_price}
+                    </span>
                   </div>
-                </div>
-
-                <div className="col-md-6 col-sm-12 col-xl-5">
-                  <img
-                    className="Image"
-                    src="https://www.euractiv.com/wp-content/uploads/sites/2/2021/09/Bali-plastic-polllution-scaled.jpg"
-                  />
-                </div>
-              </div>
-            </div>
-            <br />
-            <div className="box">
-              <div className="row">
-                <div className="col-md-6 col-sm-12 col-xl-7">
-                  <h6 className="itemtitle">Item info </h6>
-                  <div className="itemDetail">
-                    Name:Bottle <br />
-                    Quantity:4kg
+                  <div className="flex border-t border-b mb-6 border-gray-200 py-2">
+                    <span className="text-gray-500">Location</span>
+                    <span className="ml-auto text-gray-900">
+                      {sales.location}
+                    </span>
                   </div>
-                </div>
-
-                <div className="col-md-6 col-sm-12 col-xl-5">
-                  <img
-                    className="Image"
-                    src="https://www.euractiv.com/wp-content/uploads/sites/2/2021/09/Bali-plastic-polllution-scaled.jpg"
+                  <div className="flex">
+                    <span className="title-font font-medium text-2xl text-gray-900">
+                      Rs. {sales.product_price}
+                    </span>
+                    <Link to={`/checkout/details/${id}`}>
+                      <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded checkout__button">
+                        Checkout
+                      </button>
+                    </Link>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h1>Review this product {userInfo ? userInfo.name : null}</h1>
+                  <ReactStars
+                    count={5}
+                    onChange={ratingChanged}
+                    size={37}
+                    color2={"#ffd700"}
                   />
-                </div>
-              </div>
-            </div>
-            <br />
-            <h1 style={{ fontSize: "40px" }}>Rs.{total}</h1>
-          </div> */}
-          <div className="col-md-6 col-sm-12 col-xl-1"></div>
-          <div className="col-md-6 col-sm-12 col-xl-6">
-            <h4 className="price">Enter all Fields</h4>
-            <hr className="horizontal" />
-            <form>
-              <div class="mb-3">
-                <label htmlFor="exampleInputEmail1" class="form-label">
-                  User name:
-                </label>
-                <input
-                  type="email"
-                  className="form-control"
-                  id="exampleInputEmail1"
-                  aria-describedby="emailHelp"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="exampleInputPassword1" className="form-label">
-                  Phone Number:
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="exampleInputPassword1"
-                  value={number}
-                  onChange={(e) => setNumber(e.target.value)}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="exampleInputPassword1" className="form-label">
-                  Address:
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="exampleInputPassword1"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="exampleInputPassword1" className="form-label">
-                  Email:
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="exampleInputPassword1"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="mb-3 form-check">
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  id="exampleCheck1"
-                />
-                <label className="form-check-label" htmlFor="exampleCheck1">
-                  Check me out
-                </label>
-              </div>
-              {valid && (
-                <div className="title ">
-                  {/* button */}
-                  <button
-                    onClick={handleClick}
+
+                  <div className="border border-gray-200 p-6 rounded-lg">
+                    <h2
+                      className="text-lg text-gray-600 font-medium title-font mb-2"
+                      style={{ textAlign: "center" }}
+                    >
+                      Average Rating Of This Product
+                    </h2>
+                    <h2
+                      className="text-xl text-gray-900 font-medium title-font mb-2"
+                      style={{ textAlign: "center" }}
+                    >
+                      <div
+                        className="container"
+                        style={{ display: "flex", justifyContent: "center" }}
+                      >
+                        <ReactStars
+                          count={5}
+                          onChange={ratingChanged}
+                          size={37}
+                          value={averageRat}
+                          color2={"#ffd700"}
+                          style={{ margin: "0px auto" }}
+                          edit={false}
+                        />
+                      </div>
+                    </h2>
+                  </div>
+
+                  <h1
                     style={{
-                      width: "100px",
-                      height: "40px",
-                      color: "white",
-                      backgroundColor: "#4D2A7A",
-                      borderRadius: "10px",
+                      fontSize: "20px",
+                      textAlign: "center",
+                      margin: "10px 0px",
+                      color: "black",
                     }}
                   >
-                    Checkout
-                  </button>
-                </div>
+                    View All Ratings
+                  </h1>
+
+                  <h1
+                    style={{
+                      fontSize: "20px",
+                      textAlign: "center",
+                      margin: "10px 0px",
+                      color: "black",
+                    }}
+                  >
+                    {ratings.length === 0 &&
+                      "No Ratings Yet . Be The First To Rate This Product"}
+                  </h1>
+
+                  {ratings ? (
+                    ratings.map((value) => {
+                      return (
+                        <>
+                          <div
+                            className="container"
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              marginTop: "30px",
+                            }}
+                          >
+                            <div className="all">
+                              <img
+                                src={value.image}
+                                alt=""
+                                srcset=""
+                                style={{
+                                  width: "50px",
+                                  height: "50px",
+                                  borderRadius: "50%",
+                                }}
+                              />
+                              <h1 style={{ marginTop: "10px", color: "black" }}>
+                                {value.email}
+                              </h1>
+                            </div>
+                            <ReactStars
+                              count={5}
+                              size={37}
+                              value={value.rating}
+                              color2={"#ffd700"}
+                              edit={false}
+                            />
+                          </div>
+                        </>
+                      );
+                    })
+                  ) : (
+                    <h1>No Ratings Yet</h1>
+                  )}
+                </>
               )}
-            </form>
+            </div>
+            <img
+              alt="ecommerce"
+              className="lg:w-1/2 w-full object-cover object-center rounded"
+              src="https://dummyimage.com/400x400"
+              style={{ height: "460px" }}
+            />
           </div>
         </div>
-
-        <br />
-
-        <br />
-      </div>
+      </section>
     </>
   );
 };

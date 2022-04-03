@@ -1,0 +1,19 @@
+.comment__div {
+  width: 20% !important;
+  margin-top: 20px;
+}
+.comment__div > button {
+  height: 40px;
+}
+.dash__dash {
+  color: #22c514 !important;
+  background-color: #22c514 !important;
+}
+
+.comm__title {
+  text-align: center !important;
+}
+
+.comment__view {
+  height: 100px;
+}

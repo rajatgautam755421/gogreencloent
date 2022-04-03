@@ -1,6 +1,82 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-const BlogItem = ({ title, desc }) => {
+const BlogItem = ({ blogId, title, desc }) => {
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
+  const email = userInfo.email;
+  const image = userInfo.pic;
+  const [comments, setComments] = useState(0);
+  const [liked, setLiked] = useState(false);
+  const [likedLength, setLikedLength] = useState();
+  const [likedItems, setLikedItems] = useState([]);
+
+  useEffect(() => {
+    const getLikes = async () => {
+      const { data } = await axios.get(
+        `http://localhost:3000/api/v1/like/blog/byuser/${email}`
+      );
+      data.map((value) => {
+        if (value.blogId === blogId) {
+          setLiked(true);
+        }
+      });
+    };
+    getLikes();
+  });
+
+  useEffect(() => {
+    const fetchLikes = async () => {
+      try {
+        const { data } = await axios.get(
+          `http://localhost:3000/api/v1/like/blog/${blogId}`,
+          { blogId }
+        );
+        console.log(data.length);
+        setLikedLength(data.length);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    fetchLikes();
+  });
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      const { data } = await axios.get(
+        `http://localhost:3000/api/v1/comments/all/${blogId}`
+      );
+      console.log(data);
+      setComments(data.length);
+    };
+    fetchComments();
+  }, []);
+
+  const handleClick = async () => {
+    setLiked(!liked);
+    if (liked === false) {
+      try {
+        const { data } = await axios.post(
+          "http://localhost:3000/api/v1/like/blog",
+          { email, image, blogId }
+        );
+        console.log(data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    } else {
+      try {
+        const { data } = await axios.delete(
+          "http://localhost:3000/api/v1/like/blog",
+          { email, blogId }
+        );
+        console.log(data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+  };
   return (
     <div>
       <section className="text-gray-600 body-font overflow-hidden">
@@ -30,37 +106,43 @@ const BlogItem = ({ title, desc }) => {
                     <path d="M12 5l7 7-7 7" />
                   </svg>
                 </a>
-                <span className="text-gray-400 mr-3 inline-flex items-center ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
+                <span
+                  className="text-gray-400 mr-3 inline-flex items-center ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200"
+                  onClick={handleClick}
+                >
                   <svg
-                    className="w-4 h-4 mr-1"
+                    className={
+                      liked ? "w-4 h-4 mr-1 liked" : "w-4 h-4 mr-1 notliked"
+                    }
                     stroke="currentColor"
                     strokeWidth={2}
                     fill="none"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     viewBox="0 0 24 24"
-                    style={{ color: "#22c514", cursor: "pointer" }}
                   >
                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                     <circle cx={12} cy={12} r={3} />
                   </svg>
-                  <h1 style={{ color: "black" }}>1.2K</h1>
+                  <h1 style={{ color: "black" }}>{likedLength}</h1>
                 </span>
-                <span className="text-gray-400 inline-flex items-center leading-none text-sm">
-                  <svg
-                    className="w-4 h-4 mr-1"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    viewBox="0 0 24 24"
-                    style={{ color: "#22c514", cursor: "pointer" }}
-                  >
-                    <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" />
-                  </svg>
-                  <h1 style={{ color: "black" }}>6</h1>
-                </span>
+                <Link to={`/comment/${blogId}`}>
+                  <span className="text-gray-400 inline-flex items-center leading-none text-sm">
+                    <svg
+                      className="w-4 h-4 mr-1"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      viewBox="0 0 24 24"
+                      style={{ color: "#22c514", cursor: "pointer" }}
+                    >
+                      <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" />
+                    </svg>
+                    <h1 style={{ color: "black" }}>{comments}</h1>
+                  </span>
+                </Link>
               </div>
               <a className="inline-flex items-center">
                 <img
