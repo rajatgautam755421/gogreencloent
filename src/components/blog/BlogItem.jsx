@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
+import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-const BlogItem = ({ blogId, title, desc }) => {
+const BlogItem = ({ blogId, title, desc, setDeleteBlog }) => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-
   const email = userInfo.email;
   const image = userInfo.pic;
   const [comments, setComments] = useState(0);
@@ -42,17 +44,6 @@ const BlogItem = ({ blogId, title, desc }) => {
     fetchLikes();
   });
 
-  useEffect(() => {
-    const fetchComments = async () => {
-      const { data } = await axios.get(
-        `http://localhost:3000/api/v1/comments/all/${blogId}`
-      );
-      console.log(data);
-      setComments(data.length);
-    };
-    fetchComments();
-  }, []);
-
   const handleClick = async () => {
     setLiked(!liked);
     if (liked === false) {
@@ -77,6 +68,28 @@ const BlogItem = ({ blogId, title, desc }) => {
       }
     }
   };
+
+  const handleDelete = async () => {
+    try {
+      const { data } = await axios.delete(
+        `http://localhost:3000/api/v1/blog/${blogId}`
+      );
+      console.log(data);
+      setDeleteBlog(true);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  useEffect(() => {
+    const fetchComments = async () => {
+      const { data } = await axios.get(
+        `http://localhost:3000/api/v1/comments/all/${blogId}`
+      );
+      console.log(data);
+      setComments(data.length);
+    };
+    fetchComments();
+  }, []);
   return (
     <div>
       <section className="text-gray-600 body-font overflow-hidden">
@@ -87,43 +100,17 @@ const BlogItem = ({ blogId, title, desc }) => {
                 {title}
               </h2>
               <p className="leading-relaxed mb-8">{desc}</p>
-              <div className="flex items-center flex-wrap pb-4 mb-4 border-b-2 border-gray-100 mt-auto w-full">
-                <a
-                  className="text-indigo-500 inline-flex items-center learn__more"
-                  style={{ color: "#22c514", cursor: "pointer" }}
-                >
-                  Learn More
-                  <svg
-                    className="w-4 h-4 ml-2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M5 12h14" />
-                    <path d="M12 5l7 7-7 7" />
-                  </svg>
-                </a>
+              <div className="flex items-center flex-wrap pb-4 mb-4 border-b-2 border-gray-100 mt-auto ">
                 <span
                   className="text-gray-400 mr-3 inline-flex items-center ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200"
                   onClick={handleClick}
                 >
-                  <svg
-                    className={
-                      liked ? "w-4 h-4 mr-1 liked" : "w-4 h-4 mr-1 notliked"
-                    }
-                    stroke="currentColor"
-                    strokeWidth={2}
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                    <circle cx={12} cy={12} r={3} />
-                  </svg>
+                  {liked ? (
+                    <FavoriteRoundedIcon className="liked" />
+                  ) : (
+                    <FavoriteBorderRoundedIcon className="not__liked" />
+                  )}
+
                   <h1 style={{ color: "black" }}>{likedLength}</h1>
                 </span>
                 <Link to={`/comment/${blogId}`}>
@@ -143,6 +130,17 @@ const BlogItem = ({ blogId, title, desc }) => {
                     <h1 style={{ color: "black" }}>{comments}</h1>
                   </span>
                 </Link>
+                {userInfo ? (
+                  userInfo.role === "Admin" ? (
+                    <span
+                      className="text-gray-400 mr-3 inline-flex items-center ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200 ml-10"
+                      onClick={handleDelete}
+                      style={{ marginLeft: "30px" }}
+                    >
+                      <DeleteIcon style={{ color: "red", cursor: "pointer" }} />
+                    </span>
+                  ) : null
+                ) : null}
               </div>
               <a className="inline-flex items-center">
                 <img
@@ -152,13 +150,13 @@ const BlogItem = ({ blogId, title, desc }) => {
                 />
                 <span className="flex-grow flex flex-col pl-4">
                   <span className="title-font font-medium text-gray-900">
-                    Aashish Ghimire
+                    ADMIN
                   </span>
                   <span
                     className="text-gray-700 text-xs tracking-widest mt-0.5"
                     style={{ color: "#22c514" }}
                   >
-                    aashish@gmail.com
+                    admin@gmail.com
                   </span>
                 </span>
               </a>

@@ -13,4 +13,9 @@
 
 .liked {
   color: #22c514 !important;
+  cursor: pointer !important;
+}
+
+.not__liked {
+  cursor: pointer !important;
 }

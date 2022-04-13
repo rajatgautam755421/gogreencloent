@@ -1,20 +1,34 @@
 import React from "react";
-import "./Top.css";
 import ShareIcon from "@mui/icons-material/Share";
 import { Link } from "react-router-dom";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { toast } from "react-hot-toast";
+import axios from "axios";
 
-const TopBuyerCard = ({
+const AllSalesItemCard = ({
   product_image,
   id,
   sales_id,
-  product_desc,
   product_price,
   product_amount,
   location,
   posted_date,
+  setFetch,
 }) => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
+  const handleDelete = async () => {
+    const { data } = await axios.delete(
+      `http://localhost:3000/api/v1/findsales/${sales_id}`
+    );
+    setFetch(true);
+    toast.success("Item Deleted");
+    try {
+      console.log(data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <>
       <article className="card">
@@ -29,9 +43,6 @@ const TopBuyerCard = ({
             />
           </a>
         </header>
-        <date className="card__rank">
-          <span className="card__rank__position">#1</span>
-        </date>
 
         <div className="card__body">
           <div className="card__subtitle">
@@ -84,12 +95,12 @@ const TopBuyerCard = ({
               style={{
                 color: "#22c514",
                 fontSize: "20px",
-                width: "100px",
+                width: "170px",
                 height: "40px",
                 margin: "20px 0px",
               }}
             >
-              <h1>View</h1>
+              <h1>Add To Cart</h1>
               <svg
                 fill="none"
                 stroke="currentColor"
@@ -105,8 +116,26 @@ const TopBuyerCard = ({
           </Link>
         ) : null
       ) : null}
+
+      {userInfo
+        ? userInfo.role === "Admin" && (
+            <div
+              className="container"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginBottom: "20px",
+              }}
+            >
+              <DeleteIcon
+                className="sales__delete__icon"
+                onClick={handleDelete}
+              />
+            </div>
+          )
+        : null}
     </>
   );
 };
 
-export default TopBuyerCard;
+export default AllSalesItemCard;

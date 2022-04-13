@@ -13,10 +13,11 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import denied from "./dashboard.svg";
 import { toast } from "react-hot-toast";
+import UserTable from "./UserTable";
 
 const BarChart = () => {
   const [users, setUsers] = useState([]);
-
+  const [update, setUpdate] = useState(false);
   const [contact, setContact] = useState([]);
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
@@ -51,7 +52,7 @@ const BarChart = () => {
 
     fetchAllUsers();
     fetchAllContacts();
-  }, []);
+  }, [update]);
 
   return (
     <>
@@ -172,21 +173,18 @@ const BarChart = () => {
                             {users
                               ? users.map((value) => {
                                   return (
-                                    <>
-                                      <tr>
-                                        <td>{value.email}</td>
-                                        <td>{value.image}</td>
-                                        <td>{value.name}</td>
-                                        <td>{value.updatedAt}</td>
-                                        <td>{value.role}</td>
-                                      </tr>
-                                    </>
+                                    <UserTable
+                                      value={value}
+                                      setUpdate={setUpdate}
+                                    />
                                   );
                                 })
                               : null}
                           </tbody>
                         </table>
                       </div>
+
+                      {/* UserTableEnds */}
                     </div>
                   </div>
 
@@ -256,7 +254,7 @@ const BarChart = () => {
                         ? contact.map((value) => {
                             return (
                               <>
-                                <tr>
+                                <tr key={value._id}>
                                   <th scope="row">{value.name}</th>
                                   <td>{value.email}</td>
                                   <td>{value.message}</td>

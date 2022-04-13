@@ -5,9 +5,11 @@ import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
 
 const Contact = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const [name, setName] = useState(userInfo ? userInfo.name : "");
+  const [email, setEmail] = useState(userInfo ? userInfo.email : "");
   const [message, setMessage] = useState("");
+
   console.log(name, email, message);
   const handleClick = async (e) => {
     e.preventDefault();

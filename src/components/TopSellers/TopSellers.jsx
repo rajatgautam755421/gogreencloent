@@ -16,17 +16,23 @@ const TopSellers = () => {
       );
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/v1/finduser/${data[0].user_id}`
+          `http://localhost:3000/api/v1/finduser/${
+            data ? data[0].user_id : null
+          }`
         );
         setUser1(response.data);
 
         const response1 = await axios.get(
-          `http://localhost:3000/api/v1/finduser/${data[1].user_id}`
+          `http://localhost:3000/api/v1/finduser/${
+            data ? data[1].user_id : null
+          }`
         );
         setUser2(response1.data);
 
         const response2 = await axios.get(
-          `http://localhost:3000/api/v1/finduser/${data[2].user_id}`
+          `http://localhost:3000/api/v1/finduser/${
+            data ? data[2].user_id : null
+          }`
         );
         setUser3(response2.data);
       } catch (error) {
@@ -50,10 +56,10 @@ const TopSellers = () => {
       <div className="container">
         <div className="row">
           <div className="col-md-4 col-9 main__col__sellers">
-            <Link to={`/user-profile/${user1._id}`}>
+            <Link to={`/user-profile/${user1 ? user1._id : null}`}>
               <div className="container sellers__div">
                 <img
-                  src={user1.pic}
+                  src={user1 ? user1.pic : null}
                   alt=""
                   srcset=""
                   style={{
@@ -72,7 +78,7 @@ const TopSellers = () => {
                     textAlign: "center",
                   }}
                 >
-                  {user1.name}
+                  {user1 ? user1.name : null}
                 </h1>
                 <h1
                   style={{
@@ -81,16 +87,16 @@ const TopSellers = () => {
                     textAlign: "center",
                   }}
                 >
-                  {user1.email}
+                  {user1 ? user1.email : null}
                 </h1>
               </div>
             </Link>
           </div>
           <div className="col-md-4 col-9 main__col__sellers ">
-            <Link to={`/user-profile/${user2._id}`}>
+            <Link to={`/user-profile/${user2 ? user2._id : null}`}>
               <div className="container sellers__div">
                 <img
-                  src={user2.pic}
+                  src={user2 ? user2.pic : null}
                   alt=""
                   srcset=""
                   style={{
@@ -108,7 +114,7 @@ const TopSellers = () => {
                     textAlign: "center",
                   }}
                 >
-                  {user2.name}
+                  {user2 ? user2.name : null}
                 </h1>
                 <h1
                   style={{
@@ -117,16 +123,16 @@ const TopSellers = () => {
                     textAlign: "center",
                   }}
                 >
-                  {user2.email}
+                  {user2 ? user2.email : null}
                 </h1>
               </div>
             </Link>
           </div>
           <div className="col-md-4 col-9 main__col__sellers ">
-            <Link to={`/user-profile/${user3._id}`}>
+            <Link to={`/user-profile/${user3 ? user3._id : null}`}>
               <div className="container sellers__div">
                 <img
-                  src={user3.pic}
+                  src={user3 ? user3.pic : null}
                   alt=""
                   srcset=""
                   style={{
@@ -144,7 +150,7 @@ const TopSellers = () => {
                     textAlign: "center",
                   }}
                 >
-                  {user3.name}
+                  {user3 ? user3.name : null}
                 </h1>
                 <h1
                   style={{
@@ -153,7 +159,7 @@ const TopSellers = () => {
                     textAlign: "center",
                   }}
                 >
-                  {user3.email}
+                  {user3 ? user3.email : null}
                 </h1>
               </div>
             </Link>

@@ -1,0 +1,75 @@
+.btn:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.btn {
+  box-shadow: none !important;
+}
+
+.cart__butt {
+  position: relative;
+  top: 30px;
+  left: 50px;
+}
+
+.cart__card {
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.05);
+  transition: 0.4s transform cubic-bezier(0.155, 1.105, 0.5, 2), 0.3s box-shadow,
+    0.3s -webkit-transform cubic-bezier(0.155, 1.105, 0.295, 1.12);
+  color: white !important;
+}
+
+.cart__card:hover {
+  transform: scale(1.034);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
+}
+
+.add__to__cart {
+  background-color: #22c514 !important;
+}
+
+.cart__butt__remove {
+  position: relative;
+  top: 30px;
+  left: 30px;
+}
+
+.add__icon {
+  width: 200px !important;
+  height: 200px !important;
+  color: grey !important;
+}
+
+.add__icon__container {
+  border: 1px solid black;
+  border-radius: 5px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25), 0 0 6px rgba(0, 0, 0, 0.05);
+  transition: 0.4s transform cubic-bezier(0.155, 1.105, 0.5, 2), 0.3s box-shadow,
+    0.3s -webkit-transform cubic-bezier(0.155, 1.105, 0.295, 1.12);
+}
+
+.add__icon__container:hover {
+  transform: scale(1.034);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
+}
+
+.delete__areca {
+  color: red !important;
+  width: 50px !important;
+  height: 50px !important;
+  cursor: pointer !important;
+}
+
+.container__delete__icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete__areca:hover {
+  transform: scale(1.034);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
+}

@@ -17,8 +17,14 @@ import ViewUserProfile from "./components/ViewUserProfile/ViewUserProfile";
 import ScrollToTop from "./components/ScrollToTop";
 import CommentOnBlog from "./components/commentOnBlog/CommentOnBlog";
 import UserCheckoutDetails from "./components/UserCheckoutDetails/UserCheckoutDetails";
-
+import AllSalesItems from "./components/AllSalesItems/AllSalesItems";
+import UpdateUserInfo from "./components/UpdateUserInfo/UpdateUserInfo";
+import Aerika from "./components/Aerika/Aerika";
+import AericaCart from "./components/AericaCart/AericaCart";
+import AddAreca from "./components/AddAreca/AddAreca";
+import UpdateUserPic from "./components/UpdateUserPic";
 function App() {
+  localStorage.setItem("mycart", JSON.stringify([]));
   return (
     <div className="App">
       <Toaster />
@@ -31,6 +37,24 @@ function App() {
                 <>
                   <Navbar />
                   <Home />
+                </>
+              }
+            />
+            <Route
+              path="/aerika"
+              element={
+                <>
+                  <Navbar />
+                  <Aerika />
+                </>
+              }
+            />
+            <Route
+              path="/add-aerika"
+              element={
+                <>
+                  <Navbar />
+                  <AddAreca />
                 </>
               }
             />
@@ -49,6 +73,31 @@ function App() {
                 <>
                   <Navbar />
                   <UserCheckoutDetails />
+                </>
+              }
+            ></Route>
+            <Route
+              path="/update-user-info/:info"
+              element={
+                <>
+                  <UpdateUserInfo />
+                </>
+              }
+            ></Route>
+            <Route
+              path="/update-user-pic"
+              element={
+                <>
+                  <UpdateUserPic />
+                </>
+              }
+            ></Route>
+            <Route
+              path="/allsalesitems"
+              element={
+                <>
+                  <Navbar />
+                  <AllSalesItems />
                 </>
               }
             ></Route>
@@ -138,6 +187,15 @@ function App() {
                 <>
                   <Navbar />
                   <Checkout />
+                </>
+              }
+            ></Route>
+            <Route
+              path="/aericacart"
+              element={
+                <>
+                  <Navbar />
+                  <AericaCart />
                 </>
               }
             ></Route>

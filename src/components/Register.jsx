@@ -383,13 +383,14 @@ const SignUp = () => {
                     {/* Radio Buttons */}
 
                     {/* Input File */}
+
                     <div class="mb-3">
                       <label
                         htmlFor="email"
                         className="block text-sm font-medium text-neutral-600"
                       >
                         {" "}
-                        Choose A ProFile Image{" "}
+                        Profile Picture{" "}
                       </label>
                       <input
                         class="form-control"
@@ -485,7 +486,7 @@ const SignUp = () => {
                         onClick={handleClick}
                       >
                         {" "}
-                        Sign in{" "}
+                        Sign Up{" "}
                       </button>
                     </div>
                   </form>

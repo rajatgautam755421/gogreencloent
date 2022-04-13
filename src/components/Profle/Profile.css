@@ -2,3 +2,53 @@ progress[value]::-webkit-progress-bar {
   background-color: #ededed;
   border-radius: 40px;
 }
+
+.editIcon {
+  width: 30px !important;
+  height: 30px !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  color: black !important;
+}
+
+.editIcon__email {
+  cursor: pointer !important;
+  color: black !important;
+}
+
+.delete__me {
+  border: 2px solid red !important;
+}
+
+.profile-pic {
+  border-radius: 50% !important;
+  height: 150px !important;
+  width: 150px;
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: multiply;
+  vertical-align: middle;
+  text-align: center;
+  color: transparent;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  cursor: pointer;
+  z-index: 100 !important;
+}
+.profile__main {
+  z-index: 1 !important;
+}
+.profile-pic:hover {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  z-index: 10000 !important;
+  color: #fff !important;
+  transition: all 0.3s ease !important;
+  text-decoration: none !important;
+  z-index: 100 !important;
+}
+
+.profile-pic span {
+  display: inline-block;
+  padding-top: 4.5em;
+  padding-bottom: 4.5em;
+}

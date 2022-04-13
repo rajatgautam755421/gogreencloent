@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import "./Checkout.css";
 import ReactStars from "react-stars";
 import { toast } from "react-hot-toast";
+import OtherProducts from "./OtherProducts";
 
 const Checkout = () => {
   const { id } = useParams();
@@ -11,6 +12,7 @@ const Checkout = () => {
   const [showReviews, setShowReviews] = useState(false);
   const [ratings, setratings] = useState([]);
   const [averageRat, setAvegareRat] = useState(0);
+  const [rated, setRated] = useState(0);
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const product_id = id;
   const email = userInfo.email;
@@ -26,6 +28,7 @@ const Checkout = () => {
       );
       console.log(data);
       toast.success(`You Have Rated This Product With Rating ${rating}`);
+      setRated(newRating);
     } catch (error) {
       console.log(error.message);
     }
@@ -44,7 +47,7 @@ const Checkout = () => {
       }
     };
     fetchSales();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     const fetchRating = async () => {
@@ -60,7 +63,7 @@ const Checkout = () => {
       }
     };
     fetchRating();
-  });
+  }, [rated, id]);
 
   const sumRating = ratings
     ? ratings.reduce((a, b) => {
@@ -176,7 +179,7 @@ const Checkout = () => {
                           onChange={ratingChanged}
                           size={37}
                           value={averageRat}
-                          color2={"#ffd700"}
+                          color2={"#FDCC0D"}
                           style={{ margin: "0px auto" }}
                           edit={false}
                         />
@@ -206,60 +209,64 @@ const Checkout = () => {
                     {ratings.length === 0 &&
                       "No Ratings Yet . Be The First To Rate This Product"}
                   </h1>
-
-                  {ratings ? (
-                    ratings.map((value) => {
-                      return (
-                        <>
-                          <div
-                            className="container"
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                              marginTop: "30px",
-                            }}
-                          >
-                            <div className="all">
-                              <img
-                                src={value.image}
-                                alt=""
-                                srcset=""
-                                style={{
-                                  width: "50px",
-                                  height: "50px",
-                                  borderRadius: "50%",
-                                }}
+                  <div style={{ overflowY: "scroll", height: "160px" }}>
+                    {ratings ? (
+                      ratings.map((value) => {
+                        return (
+                          <div>
+                            <div
+                              className="container"
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                marginTop: "30px",
+                              }}
+                            >
+                              <div className="all">
+                                <img
+                                  src={value.image}
+                                  alt=""
+                                  srcset=""
+                                  style={{
+                                    width: "50px",
+                                    height: "50px",
+                                    borderRadius: "50%",
+                                  }}
+                                />
+                                <h1
+                                  style={{ marginTop: "10px", color: "black" }}
+                                >
+                                  {value.email}
+                                </h1>
+                              </div>
+                              <ReactStars
+                                count={5}
+                                size={37}
+                                value={value.rating}
+                                color2={"#ffd700"}
+                                edit={false}
                               />
-                              <h1 style={{ marginTop: "10px", color: "black" }}>
-                                {value.email}
-                              </h1>
                             </div>
-                            <ReactStars
-                              count={5}
-                              size={37}
-                              value={value.rating}
-                              color2={"#ffd700"}
-                              edit={false}
-                            />
                           </div>
-                        </>
-                      );
-                    })
-                  ) : (
-                    <h1>No Ratings Yet</h1>
-                  )}
+                        );
+                      })
+                    ) : (
+                      <h1>No Ratings Yet</h1>
+                    )}
+                  </div>
                 </>
               )}
             </div>
             <img
               alt="ecommerce"
               className="lg:w-1/2 w-full object-cover object-center rounded"
-              src="https://dummyimage.com/400x400"
-              style={{ height: "460px" }}
+              src={sales.product_image}
+              style={{ height: "410px" }}
             />
           </div>
         </div>
       </section>
+      <OtherProducts user_id={sales ? sales.user_id : null} id={id} />
     </>
   );
 };

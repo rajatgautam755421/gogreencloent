@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
+import { cartContext } from "../../context/AericaItemsContext";
+import { useLocation } from "react-router-dom";
 
 const Navbar = () => {
+  const location = useLocation();
   const [userInfo1, setUserInfo1] = useState({});
-
+  const { items } = useContext(cartContext);
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     setUserInfo1(userInfo);
-  }, []);
+  }, [location]);
 
   return (
     <header className="text-gray-600 body-font main__header">
@@ -54,15 +57,29 @@ const Navbar = () => {
           >
             Profile
           </Link>
+          <Link
+            to="/aerika"
+            className="mr-5 hover:text-gray-900 nav__list"
+            style={{ cursor: "pointer", fontSize: "20px", color: "black" }}
+          >
+            ArecaNut
+          </Link>
 
           {userInfo1 ? (
             userInfo1.role !== "Admin" ? (
               <Link
-                to="/cart"
+                to="/aericacart"
                 className="hover:text-gray-900 nav__list"
-                style={{ cursor: "pointer", fontSize: "20px", color: "black" }}
+                style={{
+                  cursor: "pointer",
+                  fontSize: "20px",
+                  color: "black",
+                }}
               >
-                MY Cart
+                <i className="fas fa-shopping-cart"></i>
+                <span class="w3-badge" style={{ marginLeft: "10px" }}>
+                  <h6 style={{ fontSize: "15px" }}>{items.length}</h6>
+                </span>
               </Link>
             ) : null
           ) : null}

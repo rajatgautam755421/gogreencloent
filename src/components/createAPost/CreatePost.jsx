@@ -17,6 +17,19 @@ const CreatePost = () => {
   const user_id = userInfo._id;
 
   const postDetails = (pics) => {
+    if (pics === undefined) {
+      toast({
+        title: "Please Select an Image!",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+
+      return;
+    }
+    console.log(pics);
+
     const data = new FormData();
     data.append("file", pics);
 
@@ -28,9 +41,9 @@ const CreatePost = () => {
       method: "post",
       body: data,
     })
+      .then((res) => res.json())
       .then((data) => {
         setProduct_image(data.url.toString());
-        console.log(product_image);
       })
       .catch((err) => {
         console.log(err);
@@ -49,29 +62,36 @@ const CreatePost = () => {
       toast.error("Fields Are Empty");
       setLoading(false);
     } else {
-      const { data } = await axios.post("http://localhost:3000/api/v1/sales", {
-        user_id,
-        product_image,
-        product_desc,
-        product_price,
-        product_amount,
-        location,
-      });
-      try {
-        console.log(data);
-        if (data.status === "failed") {
-          setError(data.msg);
+      if (product_amount <= 0 || product_price <= 0) {
+        toast.error("Fields Can't Be negative");
+      } else {
+        const { data } = await axios.post(
+          "http://localhost:3000/api/v1/sales",
+          {
+            user_id,
+            product_image,
+            product_desc,
+            product_price,
+            product_amount,
+            location,
+          }
+        );
+        try {
+          console.log(data);
+          if (data.status === "failed") {
+            setError(data.msg);
+          }
+          setLoading(false);
+          setProduct_amount("");
+          setProduct_desc("");
+          setLocation("");
+          setProduct_price("");
+          toast.success("Successfully Posted");
+        } catch (error) {
+          setError(error.message);
+          console.log(error.message.msg);
+          setLoading(false);
         }
-        setLoading(false);
-        setProduct_amount("");
-        setProduct_desc("");
-        setLocation("");
-        setProduct_price("");
-        toast.success("Successfully Posted");
-      } catch (error) {
-        setError(error.message);
-        console.log(error.message.msg);
-        setLoading(false);
       }
     }
   };
@@ -285,9 +305,12 @@ const CreatePost = () => {
 
                     {/* Input File */}
                     <div class="mb-3">
-                      <label className="block text-sm font-medium text-neutral-600">
+                      <label
+                        htmlFor="email"
+                        className="block text-sm font-medium text-neutral-600"
+                      >
                         {" "}
-                        Choose Image For Your Product{" "}
+                        Select Product Image{" "}
                       </label>
                       <input
                         class="form-control"

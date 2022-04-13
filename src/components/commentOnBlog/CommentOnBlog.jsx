@@ -12,6 +12,7 @@ const CommentOnBlog = () => {
   const { blogId } = useParams();
   const [comment, setComment] = useState("");
   const [blog, setBlog] = useState({});
+  const [fetch, setFetch] = useState(false);
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
   const email = userInfo.email;
@@ -26,6 +27,7 @@ const CommentOnBlog = () => {
           { email, image, comment }
         );
         console.log(data);
+        setFetch(true);
         setComment("");
       } catch (error) {
         console.log(error);
@@ -44,7 +46,7 @@ const CommentOnBlog = () => {
       setLoading(false);
     };
     fetchComments();
-  }, [comment]);
+  }, [comment, fetch]);
 
   useEffect(() => {
     const fetchABlog = async () => {
@@ -167,6 +169,7 @@ const CommentOnBlog = () => {
                   dateOfComment={value.dateOfComment}
                   email={value.email}
                   image={value.image}
+                  setFetch={setFetch}
                 />
               </>
             );
