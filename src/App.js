@@ -10,7 +10,7 @@ import Profile from "./components/Profle/Profile";
 import SignIn from "./components/SignIn";
 import Checkout from "./components/Checkout/Checkout";
 import Dashboard from "./components/dashboard/MYDASHBOARD";
-import { Toaster, toast } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import Blogpost from "./components/Blogpost/Blogpost";
 import CreatePost from "./components/createAPost/CreatePost";
 import ViewUserProfile from "./components/ViewUserProfile/ViewUserProfile";
@@ -23,6 +23,7 @@ import Aerika from "./components/Aerika/Aerika";
 import AericaCart from "./components/AericaCart/AericaCart";
 import AddAreca from "./components/AddAreca/AddAreca";
 import UpdateUserPic from "./components/UpdateUserPic";
+
 function App() {
   localStorage.setItem("mycart", JSON.stringify([]));
   return (

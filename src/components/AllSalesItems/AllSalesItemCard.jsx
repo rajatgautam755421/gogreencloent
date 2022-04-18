@@ -22,7 +22,7 @@ const AllSalesItemCard = ({
       `http://localhost:3000/api/v1/findsales/${sales_id}`
     );
     setFetch(true);
-    toast.success("Item Deleted");
+    toast.success("Item Deleted Successfully");
     try {
       console.log(data);
     } catch (error) {
